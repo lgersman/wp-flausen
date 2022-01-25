@@ -1,0 +1,87 @@
+.react-tag-input {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: flex-start;
+
+  padding: 5px;
+  /*
+    flexbox gap is unfortunely not supported in safari
+    (https://caniuse.com/#feat=flexbox-gap)
+    so we workaround it
+  */
+  // fallback
+  > * {
+    margin: 2.5px;
+  }
+  @supports (gap: 5px) {
+    > * {
+      margin: 0;
+    }
+    gap: 5px;
+  }
+
+  > .react-tag-input__item {
+    > * {
+      display: flex;
+      align-items: center;
+      cursor: default;
+      flex: 0 0 auto;
+
+      .components-button {
+        background-color: white;
+
+        &.has-icon {
+          min-width: 24px;
+        }
+
+        &:not(:hover) {
+          filter: grayscale(100%);
+        }
+
+        &.is-small:not(.has-text) {
+          padding: 0;
+        }
+      }
+    }
+
+    /*
+      drag'n drop stuff
+    */
+    &[draggable] > div {
+      cursor: move;
+    }
+
+    /*
+      can be used to apply an effect
+      for the dragged item
+    */
+    &.react-tag-input--dragged {
+      // highlight the dragged tag in some kind
+      mix-blend-mode: difference;
+      > * > .components-button {
+        visibility: hidden;
+      }
+    }
+  }
+
+  > .react-tag-input__editor {
+    display: block;
+    flex: 999 999 auto;
+
+    > * {
+      &.components-text-control__input {
+        width: inherit;
+      }
+
+      &.components-select-control__input {
+        // let it have same with as the input components-text-control__input
+        width: 217px;
+        // let it have same margin as the input components-text-control__input
+        margin: 0px;
+      }
+    }
+  }
+}

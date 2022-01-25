@@ -1,0 +1,16 @@
+{
+  "core": "WordPress/WordPress",
+  "plugins": ["../gutenberg-customclassname-tag-input-extension"],
+  "themes": [
+    "https://downloads.wordpress.org/theme/twentytwentyone.1.4.zip",
+    "."
+  ],
+  "phpVersion": "8.0",
+  "config": {
+    "WP_DEBUG": true,
+    "SCRIPT_DEBUG": true,
+    "WP_DEBUG_LOG": true,
+    "SAVEQUERIES": true,
+    "FS_METHOD": "direct"
+  }
+}

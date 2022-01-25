@@ -1,0 +1,16 @@
+/*
+ Theme Name:   gutenberg-customclassname-tag-input-extension-theme-example
+ Theme URI:    https://cm4all.com/
+ Description:  A child theme of Twenty Twenty-One WordPress theme demoing the usage of the wp-flausen/gutenberg-customclassname-tag-input-extension usage
+ Template:     twentytwentyone
+ Requires at least: 5.8
+ Requires PHP:      7.0
+ Version:           0.1.0
+ Author:            Lars Gersmann<lars.gersmann@gmail.com>
+ License:           GPL-2.0-or-later
+ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+
+ @package           wp-flausen/gutenberg-customclassname-tag-input-extension-theme-example
+*/
+
+@import url('../build/index.css');

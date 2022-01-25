@@ -1,0 +1,15 @@
+{
+  "name": "@wp-flausen/react-tag-input",
+  "version": "1.0.0",
+  "module": "src/index.jsx",
+  "devDependencies": {
+    "@wordpress/icons": "^6.1.1",
+    "@wp-flausen/react-18-shim": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@wordpress/components": "^19.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,19 @@
+.react-tag-input {
+  padding: inherit;
+
+  > .react-tag-input__editor {
+    > * {
+      &.components-text-control__input {
+        width: 50%;
+      }
+    }
+  }
+
+  /* default coloring for rendered tags */
+  .gutenberg-customclassname-tag-input-extension-tag-category__,
+  [class^='gutenberg-customclassname-tag-input-extension-tag-category__'],
+  [class*=' gutenberg-customclassname-tag-input-extension-tag-category__'] {
+    background-color: grey;
+    color: white;
+  }
+}

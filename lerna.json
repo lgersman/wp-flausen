@@ -1,0 +1,12 @@
+{
+  "npmClient": "npm",
+  "command": {
+    "publish": {
+      "allowBranch": ["main", "develop"],
+      "conventionalCommits": true,
+      "ignoreChanges": ["*.md", ".stories.ts"]
+    }
+  },
+  "packages": ["packages/*"],
+  "version": "independent"
+}

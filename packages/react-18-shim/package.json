@@ -1,0 +1,7 @@
+{
+  "name": "@wp-flausen/react-18-shim",
+  "description": "this internal package provides react 18 shims for other subpackages",
+  "version": "1.0.0",
+  "module": "src/index.js",
+  "private": true
+}

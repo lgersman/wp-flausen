@@ -1,0 +1,57 @@
+---
+extends:
+  - plugin:prettier/recommended
+  - prettier
+  - eslint:recommended
+  - plugin:react/recommended
+
+# tells ESLint not to use ancestor directories.
+# see https://github.com/eslint/eslint/issues/6630
+root: true
+
+settings:
+  react:
+    version: 'detect'
+
+env:
+  es6: true
+  browser: true
+
+parserOptions:
+  ecmaVersion: 2020
+  sourceType: module
+
+plugins:
+  - prettier
+  - simple-import-sort
+  - react-hooks
+
+# we need to override the prettier/prettier rule since
+# plugin:@wordpress/eslint-plugin/recommended configures prettier to use tabs instead of spaces
+# unfortunely @wordpress/eslint-plugin also ignore prettier setting made in our package.json
+# so we need to fix this here as last option ...
+rules:
+  react/prop-types:
+    - warn
+  prettier/prettier:
+    - error
+    - useTabs: false
+  # added to workaround notices after upgrading wp repo (lars)
+  import/no-unresolved:
+    - off
+  # '@wordpress/no-global-event-listener':
+  #   - off
+  # '@wordpress/no-global-active-element':
+  #   - off
+  no-console:
+    - off
+  # sort-keys:
+  #   - warn
+  # sort-imports:
+  #   - warn
+  # Checks rules of Hooks
+  'react-hooks/rules-of-hooks':
+    - error
+  # Checks effect dependencies
+  'react-hooks/exhaustive-deps':
+    - warn

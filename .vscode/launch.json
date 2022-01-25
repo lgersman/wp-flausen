@@ -1,0 +1,22 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Listen for Xdebug (wp-env)",
+      "type": "php",
+      "request": "launch",
+      "port": 9003,
+      //"stopOnEntry": true,
+      //"log": true,
+      "pathMappings": {
+        "/var/www/html/wp-content/plugins/foo": "${workspaceFolder}/packages/gutenberg-block-skeleton/foo",
+        "/var/www/html/wp-content/plugins/gutenberg-customclassname-tag-input-extension": "${workspaceFolder}/packages/gutenberg-customclassname-tag-input-extension",
+        "/var/www/html/wp-content/themes/gutenberg-customclassname-tag-input-extension-theme-example": "${workspaceFolder}/packages/gutenberg-customclassname-tag-input-extension-theme-example",
+        "/var/www/html": "${workspaceFolder}/packages/gutenberg-customclassname-tag-input-extension-theme-example/wp-env-home/bd424a20541ee0ee7edc20b7101f1692/WordPress"
+      }
+    }
+  ]
+}
