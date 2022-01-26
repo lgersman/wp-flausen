@@ -1,6 +1,6 @@
 # About
 
-Wordpress related monorepo containing extperimental plugins/themes and stuff.
+Wordpress related monorepo containing experimental plugins/themes and stuff.
 
 # The project is under heavy development and often has changing requirements and scope.
 
