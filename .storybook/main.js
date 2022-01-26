@@ -23,7 +23,20 @@ module.exports = {
       config.define['global'] = 'window';
     }
 
+    config = {
+      ...config,
+      // base: '/storybook/',
+    };
+
     console.log({config, configType});
+    return config;
+  },
+  async webpackFinal(config, {configType}) {
+    // config.output.publicPath = '/storybook/';
+    return config;
+  },
+  async managerWebpack(config) {
+    // config.output.publicPath = '/storybook/';
     return config;
   },
 };

@@ -18,4 +18,4 @@ Wordpress related monorepo containing extperimental plugins/themes and stuff.
 
 - build static storybook : `npm run build-storybook`
 
-  - you can try the generated static web site : `cd dist/docs/storybook && python3 -m http.server`
+  - you can try the generated static web site : `(cd dist/docs/storybook && python3 -m http.server)`
