@@ -6,3 +6,4 @@
 **/config-overrides.js
 __vite.config.js
 **/package-lock.json
+wp-env-home
