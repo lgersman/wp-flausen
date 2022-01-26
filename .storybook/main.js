@@ -23,10 +23,14 @@ module.exports = {
       config.define['global'] = 'window';
     }
 
-    config = {
-      ...config,
-      // base: '/storybook/',
-    };
+    // the generated storybook code should work also fine on destinations with path (like gh pages)
+    // https://github.com/eirslett/storybook-builder-vite/issues/96#issuecomment-1016548429
+    if (configType === 'PRODUCTION') {
+      config = {
+        ...config,
+        base: './',
+      };
+    }
 
     console.log({config, configType});
     return config;

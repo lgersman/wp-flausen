@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "storybook": "start-storybook -p 6006 --modern",
-    "build-storybook": "build-storybook --modern -o ./dist/docs/storybook",
+    "build-storybook": "build-storybook --modern -o dist/docs/storybook",
     "next_storybook": "start-storybook -p 6006 --preview-url=/storybook/iframe.html",
     "next_build-storybook": "build-storybook -o ./dist/docs/storybook --preview-url=/storybook/iframe.html",
     "build": "lerna run build",
