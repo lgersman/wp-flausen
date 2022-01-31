@@ -1,9 +1,9 @@
+import {useMemo} from 'react';
 import {removeFilter, addFilter} from '@wordpress/hooks';
 import {__} from '@wordpress/i18n';
 import {hasBlockSupport} from '@wordpress/blocks';
 import {createHigherOrderComponent} from '@wordpress/compose';
 import {InspectorControls} from '@wordpress/block-editor';
-import domReady from '@wordpress/dom-ready';
 import TagInput from '@wp-flausen/react-tag-input';
 import React from 'react';
 import getConfiguration, {filters, actions} from './wp-hooks-filter.js';
@@ -14,18 +14,11 @@ export {filters, actions};
 
 import './index.scss';
 
-console.log(__('huhu !'));
-
-let configuration = {
+let DEFAULT_CONFIGURATION = {
   items: [],
   isEnum: false,
   canReorder: true,
 };
-
-domReady(() => {
-  configuration = getConfiguration(configuration);
-  console.log('filtered configuration=', configuration);
-});
 
 removeFilter(
   'editor.BlockEdit',
@@ -71,6 +64,12 @@ addFilter(
         'customClassName',
         true
       );
+
+      let configuration = useMemo(
+        () => getConfiguration(DEFAULT_CONFIGURATION, props.name),
+        [props.name]
+      );
+
       if (hasCustomClassName && props.isSelected) {
         const {items = [], isEnum = false, canReorder = true} = configuration;
 
