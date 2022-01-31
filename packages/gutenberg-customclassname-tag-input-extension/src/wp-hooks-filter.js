@@ -14,6 +14,10 @@ const actions = {
 
 export {filters, actions};
 
-export default function getConfiguration(defaultConfiguration) {
-  return applyFilters(filters.GET_CONFIGURATION, defaultConfiguration);
+export default function getConfiguration(defaultConfiguration, blockName) {
+  return applyFilters(
+    filters.GET_CONFIGURATION,
+    defaultConfiguration,
+    blockName
+  );
 }
