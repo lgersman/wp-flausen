@@ -55,7 +55,7 @@ if (process.env.NODE_ENV !== 'production') {
   };
 }
 
-function TagInputSelector() {
+function TagInputSelector({disabled, readonly}) {
   const {state, dispatch} = useContext(TagInputContext);
 
   const getAddableItemsOrderedByCategories = useCallback(() => {
@@ -76,6 +76,9 @@ function TagInputSelector() {
   }, [state.addableItems]);
 
   const onChange = (event) => {
+    if (readonly) {
+      return;
+    }
     // onBlur will probably set value to "" ...
     if (event.target.value) {
       const index = Number.parseInt(event.target.value);
@@ -88,17 +91,25 @@ function TagInputSelector() {
 
   return (
     <select
-      disabled={!state.addableItems.length}
+      disabled={disabled || !state.addableItems.length}
       className={`components-select-control__input`}
       onChange={onChange}
       onBlur={onChange}
     >
-      <option value="">Add ...</option>
+      {!readonly && <option value="">Add ...</option>}
       <OptGroups
         addableItemsByCategory={getAddableItemsOrderedByCategories()}
       />
     </select>
   );
+}
+
+// eslint-disable-next-line no-undef
+if (process.env.NODE_ENV !== 'production') {
+  TagInputSelector.propTypes = {
+    readonly: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired,
+  };
 }
 
 export default TagInputSelector;

@@ -10,6 +10,8 @@ export default {
     className: {control: 'text'},
     style: {control: 'object'},
     isEnum: {control: 'boolean'},
+    disabled: {control: 'boolean'},
+    readonly: {control: 'boolean'},
   },
   args: {
     style: {
@@ -20,6 +22,8 @@ export default {
     },
     className: '',
     isEnum: true,
+    disabled: false,
+    readonly: false,
   },
   decorators: [
     (Story) => (

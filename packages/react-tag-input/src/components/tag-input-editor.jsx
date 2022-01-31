@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TagInput, {TagInputContext} from './tag-input.jsx';
 import {ACTION_ADD_SELECTED} from '../reducer.js';
 
-const TagInputEditor = ({instanceId}) => {
+const TagInputEditor = ({instanceId, readonly, disabled}) => {
   const {state, dispatch} = useContext(TagInputContext);
 
   const ID = `${TagInput.className}-editor-${instanceId}`;
@@ -36,6 +36,8 @@ const TagInputEditor = ({instanceId}) => {
     <>
       <input
         type="text"
+        readOnly={readonly}
+        disabled={disabled}
         id={ID}
         className="components-text-control__input"
         list={state.addableItems.length && ID + '-datalist'}
@@ -59,7 +61,9 @@ const TagInputEditor = ({instanceId}) => {
 // eslint-disable-next-line no-undef
 if (process.env.NODE_ENV !== 'production') {
   TagInputEditor.propTypes = {
-    instanceId: PropTypes.string,
+    instanceId: PropTypes.string.isRequired,
+    readonly: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired,
   };
 }
 

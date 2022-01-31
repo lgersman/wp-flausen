@@ -43,6 +43,8 @@ function TagInput(props) {
     canReorder = true,
     isEnum = false,
     renderTag = RenderTag,
+    disabled = false,
+    readonly = false,
   } = props;
 
   const [state, dispatch] = useReducer(
@@ -95,7 +97,7 @@ function TagInput(props) {
             index={index}
             RenderTag={renderTag}
             reorderContext={reorderContext}
-            canRemove={canRemove}
+            canRemove={!(disabled || readonly) && canRemove}
           />
         ))}
         {canAdd && (
@@ -105,6 +107,8 @@ function TagInput(props) {
           >
             {React.createElement(isEnum ? TagInputSelector : TagInputEditor, {
               instanceId,
+              readonly,
+              disabled,
             })}
           </div>
         )}
@@ -126,6 +130,8 @@ TagInput.defaultProps = {
   canReorder: true,
   isEnum: false,
   renderTag: RenderTag,
+  disabled: false,
+  readonly: false,
 };
 
 // eslint-disable-next-line no-undef
@@ -142,6 +148,8 @@ if (process.env.NODE_ENV !== 'production') {
     canAdd: PropTypes.bool,
     canReorder: PropTypes.bool,
     renderTag: PropTypes.func,
+    disabled: PropTypes.bool,
+    readonly: PropTypes.bool,
   };
 }
 

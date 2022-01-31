@@ -17,7 +17,9 @@ import './index.scss';
 let DEFAULT_CONFIGURATION = {
   items: [],
   isEnum: false,
-  canReorder: true,
+  canReorder: false,
+  //readonly: false,
+  //disabled: false,
 };
 
 removeFilter(
@@ -36,14 +38,14 @@ function renderTag({item, children}) {
         borderRadius: '4px',
       }}
       className={
-        'gutenberg-customclassname-tag-input-extension-tag-category__' +
+        'class-tag gutenberg-customclassname-tag-input-extension-tag-category__' +
         category.replace(/\s+/g, '-').toLowerCase()
       }
       title={
         (category ? `${category} /` : '') + `${item.label}\n\n${description}`
       }
     >
-      <span style={{padding: '0 6px 0 6px'}}>
+      <span className="class-text" style={{padding: '5px 6px 5px 6px'}}>
         {category ? `${category} /` : ''}
         {item.label}
       </span>
@@ -99,6 +101,8 @@ addFilter(
                 id="cssclass_editor"
                 isEnum={isEnum}
                 items={items}
+                disabled={configuration.disabled}
+                readonly={configuration.readonly}
                 canReorder={canReorder}
                 selected={selected}
                 onChange={(selected) => {
