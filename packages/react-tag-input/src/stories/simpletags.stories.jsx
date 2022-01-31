@@ -35,10 +35,10 @@ export default {
 };
 
 const PREDEFINED_ITEMS = [
-  'alpha',
-  'beta',
+  {value: 'alpha'},
+  {value: 'beta'},
   {label: 'Label of Gamma value', value: 'gamma', category: 'Other'},
-  'kappa',
+  {value: 'kappa'},
   {value: 'delta', category: 'Other'},
   {label: 'Sternzeichen Omega', value: 'omega', category: 'Other'},
   {label: 'Epsilon', value: 'epsilon', category: 'Completely different'},
