@@ -2,8 +2,6 @@ import {addFilter} from '@wordpress/hooks';
 
 import './index.scss';
 
-console.log('huhu from theme');
-
 const ALL_CSS_CLASSES = [
   {
     label: `Funky effect`,
@@ -82,6 +80,8 @@ addFilter(
       ...configuration,
       items,
       isEnum: true, // prohibit insertion of unknown class names
+      //disabled: true,
+      readonly: true,
       // canReorder: false,
     };
   }

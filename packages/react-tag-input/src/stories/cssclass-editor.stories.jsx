@@ -10,6 +10,8 @@ export default {
     className: {control: 'text'},
     style: {control: 'object'},
     isEnum: {control: 'boolean'},
+    disabled: {control: 'boolean'},
+    readonly: {control: 'boolean'},
   },
   args: {
     style: {
@@ -20,6 +22,8 @@ export default {
     },
     className: '',
     isEnum: true,
+    disabled: false,
+    readonly: false,
   },
   decorators: [
     (Story) => (
@@ -165,7 +169,7 @@ export const CustomRenderer = (args) => {
         }}
         title={`${raw.section} / ${raw.topic.text}\n${raw.topic.description}\n\n${raw.item.prop}`}
       >
-        <span style={{padding: '0 6px 0 6px'}}>{raw.item.name}</span>
+        <span style={{padding: '5px 6px 5px 6px'}}>{raw.item.name}</span>
         {children}
       </div>
     );
