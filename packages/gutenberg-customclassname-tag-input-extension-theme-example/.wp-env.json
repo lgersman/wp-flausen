@@ -1,8 +1,9 @@
 {
-  "core": "WordPress/WordPress",
+  "core": "WordPress/WordPress#5.9",
   "plugins": ["../gutenberg-customclassname-tag-input-extension"],
   "themes": [
-    "https://downloads.wordpress.org/theme/twentytwentyone.1.5.zip",
+    "https://downloads.wordpress.org/theme/twentytwentyone.zip",
+    "https://downloads.wordpress.org/theme/twentytwentytwo.zip",
     "."
   ],
   "phpVersion": "8.0",
