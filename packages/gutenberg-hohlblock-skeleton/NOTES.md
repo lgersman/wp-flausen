@@ -5,6 +5,10 @@ add to .gitignore:
 - wp-env-home
 - build
 
+# links
+
+- see https://github.com/ryanwelcher/dynamic-block-template
+
 # xdebug
 
 - @INVESTIGATE: UGH! ... index.assets.php will be used by wp
@@ -20,9 +24,17 @@ add to .gitignore:
 
 - start wordpress using `WP_ENV_HOME=wp-env-home node_modules/.bin/wp-env start --xdebug --debug`
 
+# wp-cli
+
+just wp-cli instead of wp-env ?
+
+https://kulturbanause.de/blog/wordpress-routinen-mit-wp-cli-und-shell-skripten-automatisieren/
+
 # i18n
 
-seems an unresolved issue by wp-env. tooling is completely within wp-env
+seems an unresolved issue by wp-cli. tooling is completely within wp-env
+
+- [#gettext #mo #wp-env] [Update MO files when purging](https://github.com/wp-cli/i18n-command/issues/126)
 
 # bundler
 
