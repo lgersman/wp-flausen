@@ -12,7 +12,7 @@ Wordpress related monorepo containing experimental plugins/themes and stuff.
 
 - `npx -y lerna bootstrap`
 
-- watch/dev : `npn run storybook`
+- watch/dev : `npm run storybook`
 
 - build all packages in development mode : `NODE_ENV=development npx -y lerna run build`
 
