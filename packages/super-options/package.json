@@ -2,5 +2,16 @@
   "name": "super-options",
   "version": "1.0.0",
   "description": "A pimped wordpress options screen including filter and import/export capabilities.",
-  "main": "index.js"
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "start": "wp-scripts start",
+    "packages-update": "wp-scripts packages-update"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^19.2.2"
+  }
 }
