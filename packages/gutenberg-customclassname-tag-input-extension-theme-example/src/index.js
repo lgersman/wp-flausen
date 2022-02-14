@@ -81,7 +81,7 @@ addFilter(
       items,
       isEnum: true, // prohibit insertion of unknown class names
       //disabled: true,
-      readonly: true,
+      // readonly: true,
       // canReorder: false,
     };
   }

@@ -12,10 +12,11 @@
       //"stopOnEntry": true,
       //"log": true,
       "pathMappings": {
-        "/var/www/html/wp-content/plugins/foo": "${workspaceFolder}/packages/gutenberg-block-skeleton/foo",
+        "/var/www/html/wp-content/plugins/create-block-foo": "${workspaceFolder}/packages/create-block-foo",
         "/var/www/html/wp-content/plugins/gutenberg-customclassname-tag-input-extension": "${workspaceFolder}/packages/gutenberg-customclassname-tag-input-extension",
+        "/var/www/html/wp-content/plugins/super-options": "${workspaceFolder}/packages/super-options",
         "/var/www/html/wp-content/themes/gutenberg-customclassname-tag-input-extension-theme-example": "${workspaceFolder}/packages/gutenberg-customclassname-tag-input-extension-theme-example",
-        "/var/www/html": "${workspaceFolder}/packages/gutenberg-customclassname-tag-input-extension-theme-example/wp-env-home/bd424a20541ee0ee7edc20b7101f1692/WordPress"
+        "/var/www/html": "${workspaceFolder}/wp-env-home/5d27ad339698af838d4830092595a2c3/WordPress"
       }
     }
   ]

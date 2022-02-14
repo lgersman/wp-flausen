@@ -23,18 +23,18 @@
  */
 function create_block_foo_block_init()
 {
-	/*
+  /*
   $HANDLE = 'create-block-foo-editor-script';
 
-  wp_register_script(
+  \wp_register_script(
     $HANDLE,
-    plugins_url('build/index.js', __FILE__),
+    \plugins_url('build/index.js', __FILE__),
     ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'],
     filemtime(__DIR__ . '/build/index.js')
   );
-  wp_set_script_translations($$HANDLE, 'foo');
+  \wp_set_script_translations($$HANDLE, 'foo');
   */
 
-	register_block_type(__DIR__);
+  \register_block_type(__DIR__);
 }
-add_action('init', 'create_block_foo_block_init');
+\add_action('init', 'create_block_foo_block_init');

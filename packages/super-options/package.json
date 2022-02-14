@@ -1,0 +1,6 @@
+{
+  "name": "super-options",
+  "version": "1.0.0",
+  "description": "A pimped wordpress options screen including filter and import/export capabilities.",
+  "main": "index.js"
+}
