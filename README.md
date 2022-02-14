@@ -19,3 +19,7 @@ Wordpress related monorepo containing experimental plugins/themes and stuff.
 - build static storybook : `npm run build-storybook`
 
   - you can try the generated static web site : `(cd dist/docs/storybook && python3 -m http.server)`
+
+- `npm run wp-env:start` starts wp-env
+
+  - `npm run wp-env:stop` and `npm run wp-env:destroy` will stop / destroy the wp-env instance
