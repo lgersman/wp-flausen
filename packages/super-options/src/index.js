@@ -1,6 +1,6 @@
 import './index.scss';
 
-function debounce(func, wait = 100) {
+function debounce(func, wait = 300) {
   let timeout;
   return function (...args) {
     clearTimeout(timeout);
@@ -45,7 +45,7 @@ function matchesRules(rules, string) {
     return false;
   }
 
-  return tests.some((test) => test.matched);
+  return tests.length === 0 || tests.some((test) => test.matched);
 }
 
 window['super-options'] = function () {
@@ -57,38 +57,54 @@ window['super-options'] = function () {
 
   filterFormContainer.classList.add('super-options-container');
   filterFormContainer.innerHTML = `
-    <form class="super-options-form">
-    <fieldset>
-    <legend>Super options</legend>
+    <form onSubmit="return false;" class="super-options-form">
       <fieldset>
-        <legend>Filter</legend>
-        <div class="super-options-filter">
-          <label for="super-options-name-filter">Name matches:</label>
-          <input 
-            type="text" 
-            id="super-options-name-filter" 
-            title="Example : 'widget_*, _page, !*transient*, mailserver_url'" 
-            autofocus 
-            size="40" 
-            placeholder="widget_*, _page, !*transient*, mailserver_url"
-          >
-<!--
-          <label for="super-options-value-filter">Value contains:</label>
-          <input 
-            type="text" 
-            id="super-options-value-filter" 
-            size="40" 
-            placeholder="localhost !*update*"
-            title="Example : 'localhost !*update*'" 
-          >
--->
-        </div>
-      </fieldset>
+        <legend>Super options</legend>
+        <fieldset>
+          <legend>Filter</legend>
+          <div class="super-options-filter">
+            <label for="super-options-name-filter">Name matches:</label>
+            <input 
+              type="text" 
+              id="super-options-name-filter" 
+              title="Example : 'widget_*, _page, !*transient*, mailserver_url'" 
+              autofocus 
+              size="40" 
+              placeholder="widget_*, _page, !*transient*, mailserver_url"
+            >
+            <label for="super-options-value-filter">Value contains:</label>
+            <input 
+              type="text" 
+              id="super-options-value-filter" 
+              size="40" 
+              placeholder="localhost !*update*"
+              title="Example : 'localhost !*update*'" 
+            >
+            <div></div>
+            <div class="super-options-filter-actions"> 
+              <button 
+                id="super-options-filter-actions-export"
+                type="button"
+                class="button"
+                title="Export filtered options to JSON file."
+              >Export filtered options</button>
+              <input
+                id="super-options-filter-actions-import-file"
+                type="file"
+                accept="application/json"
+              >              
+              <button 
+                id="super-options-filter-actions-import"
+                type="file"
+                class="button"
+                title="Import options from JSON file."
+              >Import options</button>
+            </div>
+          </div>
+        </fieldset>
       </fieldset>
     </form>
   `;
-
-  // console.log('sdfsddsfsdff');
 
   for (const row of optionsForm.querySelectorAll('TR')) {
     const input = row.querySelector('INPUT[type="text"]');
@@ -118,7 +134,7 @@ window['super-options'] = function () {
         htmlSlices.push(`
         <details class="super-options-additional-table-row-column-value">
             <summary>Value:</summary>
-            <pre>${preset.value}</pre>
+            <pre>${preset.value.replace(/</gm, '&lt;')}</pre>
           </details>
         `);
       }
@@ -138,9 +154,19 @@ window['super-options'] = function () {
     '#super-options-value-filter'
   );
 
+  const exportButton = document.querySelector(
+    '#super-options-filter-actions-export'
+  );
+  const importButton = document.querySelector(
+    '#super-options-filter-actions-import'
+  );
+  const importFileInput = document.querySelector(
+    '#super-options-filter-actions-import-file'
+  );
+
   const filterSettings = debounce(() => {
     const byNameRules = parseFilter(nameFilterInput.value, true);
-    // const byValueRules = parseFilter(valueFilterInput.value);
+    const byValueRules = parseFilter(valueFilterInput.value, false);
 
     for (const tr of document.querySelectorAll(
       'form[action="options.php"] TR:not(.super-options-additional-table-row)'
@@ -153,17 +179,71 @@ window['super-options'] = function () {
 
       if (preset) {
         const nameMatchesRules = matchesRules(byNameRules, preset.name);
-        // const valueMatchesRules = true; // matchesRules(byNameRules, preset.name);
+        const valueMatchesRules = matchesRules(byValueRules, preset.value);
 
+        const NameOrValueMatches =
+          (byNameRules.length > 0 && nameMatchesRules) ||
+          (byValueRules.length > 0 && valueMatchesRules);
         for (const row of [tr, tr.nextElementSibling]) {
-          row.style.display = nameMatchesRules ? 'inherit' : 'none';
+          // hide option if neither name/value matches or no rule was entered
+          row.classList[
+            NameOrValueMatches || byNameRules.length + byValueRules.length === 0
+              ? 'remove'
+              : 'add'
+          ]('super-options-option-hidden');
         }
       }
     }
+
+    exportButton.disabled = !document.querySelectorAll(
+      'form[action="options.php"] TR:not(.super-options-additional-table-row):not(.super-options-option-hidden)'
+    ).length;
   });
 
   nameFilterInput.oninput = filterSettings;
-  // valueFilterInput.oninput = filterSettings;
+  valueFilterInput.oninput = filterSettings;
+
+  exportButton.onclick = () => {
+    console.log('export clicked');
+
+    const optionsToExport = Object.fromEntries(
+      Array.from(
+        document.querySelectorAll(
+          'form[action="options.php"] TR:not(.super-options-additional-table-row):not(.super-options-option-hidden) input[type="text"]:not(:disabled)'
+        )
+      ).map((input) => [input.name, input.value])
+    );
+
+    // @TODO: write file to local storage
+
+    console.log({optionsToExport});
+  };
+
+  importButton.onclick = () => {
+    console.log('import clicked');
+    importFileInput.click();
+  };
+
+  importFileInput.onchange = async (event) => {
+    console.log({message: 'import clicked', event});
+    const file = event.target.files[0];
+
+    try {
+      const options = JSON.parse(await file.text());
+
+      console.log({options});
+
+      // @TODO: apply json to options fields
+
+      // @TODO: highlight updated option input fields
+    } catch (ex) {
+      alert(`Failed to load json from file ${file.name}: ${ex.message}`);
+    }
+
+    event.target.value = '';
+  };
+
+  filterSettings();
 };
 
 window['super-options'].allowedOptions = [];

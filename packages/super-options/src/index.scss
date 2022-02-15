@@ -1,3 +1,7 @@
+LABEL {
+  white-space: nowrap;
+}
+
 .super-options-container {
   .super-options-form {
     FIELDSET {
@@ -21,7 +25,16 @@
       align-items: center;
       grid-template-areas:
         '. .'
+        '. .'
         '. .';
+
+      .super-options-filter-actions {
+        justify-self: end;
+
+        #super-options-filter-actions-import-file {
+          display: none;
+        }
+      }
     }
   }
 }
@@ -51,10 +64,8 @@
   }
 }
 
-/*
-
-input {
-  background-color: green;
+tr {
+  &.super-options-option-hidden {
+    display: none;
+  }
 }
-
-*/
