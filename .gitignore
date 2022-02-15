@@ -3,3 +3,4 @@ node_modules
 /dist
 wp-env-home
 build
+package.json.lerna_backup
