@@ -16,7 +16,7 @@
 
 namespace wp_flausen\super_options;
 
-\add_action('plugins_loaded', function () {
+\add_action('load-options.php', function () {
   $allowedOptions = [];
 
   \add_filter('allowed_options', function ($_allowedOptions) use (
@@ -25,6 +25,94 @@ namespace wp_flausen\super_options;
     $allowedOptions = array_merge(...array_values($_allowedOptions));
     return $_allowedOptions;
   });
+
+  \get_current_screen()->add_help_tab(
+    [
+      'id'      => 'help-overview',
+      'title'   => __('Overview', 'super-options'),
+      'content' => '
+      <p>
+        Super-options extends Wordpress options by
+        <ul>
+          <li>Filtering by name and values.</li>
+          <li>Display serialized data values in option tooltip</li>
+          <li>Export Wordpress options to JSON</li>
+          <li>Import Wordpress options from JSON</li>
+        </ul>
+      </p>
+    ',
+    ]
+  );
+
+  \get_current_screen()->add_help_tab(
+    [
+      'id'      => 'help-filter',
+      'title'   => __('Filter', 'super-options'),
+      'content' => '
+      <p>
+      Name and Value Filter supports comma/space separated list of wildcard expressions.
+      </p>
+      <p>
+      A wildcard expression may contain:
+      <ul>
+        <li><code>*</code> - matches any string</li>
+        <li><code>?</code> - matches any single character</li>
+        <li><code>\</code> - escapes the next character</li>
+        <li>
+          <code>!</code> - at the very beginning of the expression, negates the filter expression
+          <p>
+          The negotion excludes the matched option.
+          </p>
+        </li>
+      </p>
+    '
+    ]
+  );
+
+  \get_current_screen()->add_help_tab(
+    [
+      'id'      => 'help-export',
+      'title'   => __('Export', 'super-options'),
+      'content' => '
+        <p>TODO</p>
+    '
+    ]
+  );
+
+  \get_current_screen()->add_help_tab(
+    [
+      'id'      => 'help-import',
+      'title'   => __('Import', 'super-options'),
+      'content' => '
+        <p>TODO</p>
+    '
+    ]
+  );
+
+  \get_current_screen()->add_help_tab(
+    [
+      'id'      => 'help-integration',
+      'title'   => __('Integration', 'super-options'),
+      'content' => '
+<p>TODO</p>
+<pre>
+function super_options_dashboard_link() { 
+  add_options_page(__("All Settings"), __("All Settings"), "administrator", "options.php?super-options-filter-name=*foo*;super-options-readonly="); 
+} 
+add_action("admin_menu", "foo settings");
+</pre>
+    '
+    ]
+  );
+
+  \get_current_screen()->set_help_sidebar(
+    sprintf(
+      '<p><strong>%s</strong></p><p>%s</p><p>%s</p>',
+      __('For more information:', 'super-options'),
+      __('<a href="https://wordpress.org/plugins/cm4all-wp-super-options/">super-options Homepage</a>', 'super-options'),
+      __('<a href="https://wordpress.org/plugins/cm4all-wp-super-options/">Support</a>', 'super-options')
+    )
+  );
 
   // for whatever reason we need to use a referene otherwise allowedOptions is empty ...
   \add_action('admin_enqueue_scripts', function ($hook) use (&$allowedOptions) {
@@ -53,7 +141,7 @@ namespace wp_flausen\super_options;
       \wp_add_inline_script(
         $HANDLE,
         sprintf(
-          'window["super-options"]?.allowedOptions = %s;',
+          'window["super-options"].allowedOptions = %s;',
           json_encode($allowedOptions)
         )
       );
@@ -80,7 +168,12 @@ namespace wp_flausen\super_options;
       // attach allowed options to options page as global variable
       \wp_add_inline_script(
         $HANDLE,
-        sprintf('window["super-options"]?.presets = %s;', json_encode($options))
+        sprintf('window["super-options"].presets = %s;', json_encode($options))
+      );
+
+      \wp_add_inline_script(
+        $HANDLE,
+        'window["super-options"]();'
       );
     }
   });
