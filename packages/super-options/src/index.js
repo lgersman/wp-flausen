@@ -1,55 +1,95 @@
 import './index.scss';
-
-function debounce(func, wait = 300) {
-  let timeout;
-  return function (...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      func.apply(this, args);
-    }, wait);
-  };
-}
-
-function parseFilter(filters, fullMatch = false) {
-  const rules = Array.from(filters.matchAll(/[^\s,]+/g)).map(([filter]) => {
-    const rule = {
-      negotiate: filter.startsWith('!') && (filter = filter.slice(1)),
-    };
-
-    const escapedFilter = filter.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-
-    let regexpFilter = escapedFilter.replaceAll(
-      /([\\])?\\(\*|\?)/g,
-      ($0, $1, $2) => `${$1 || '.'}${$2}`
-    );
-
-    if (fullMatch) {
-      regexpFilter = `^${regexpFilter}$`;
-    }
-
-    rule.regexp = new RegExp(regexpFilter);
-
-    return rule;
-  });
-
-  return rules;
-}
-
-function matchesRules(rules, string) {
-  const tests = rules.map((rule) => ({
-    rule,
-    matched: rule.regexp.exec(string),
-  }));
-
-  if (tests.some((test) => test.matched && test.rule.negotiate)) {
-    return false;
-  }
-
-  return tests.length === 0 || tests.some((test) => test.matched);
-}
+import memoize from './memoize.js';
+import debounce from './debounce.js';
+import {parseFilter, matchesRules} from './rules.js';
 
 window['super-options'] = function () {
+  const self = window['super-options'];
   const optionsForm = document.querySelector('form[action="options.php"]');
+
+  let nameFilterInput,
+    valueFilterInput,
+    resetButton,
+    exportButton,
+    importButton,
+    importFileInput,
+    updateOptionsButton;
+  const values = new (class extends Map {
+    constructor() {
+      super();
+
+      this.reset();
+
+      window.values = this;
+    }
+
+    get(key) {
+      const value = super.get(key);
+
+      if (value === undefined) {
+        return null;
+      }
+
+      return value;
+    }
+    set(key, value) {
+      if (value === undefined) {
+        return;
+      }
+
+      super.set(key, value);
+
+      const input = optionsForm.querySelector(
+        `TR INPUT[type="text"][name="${key}"]`
+      );
+
+      if (input) {
+        if (!input.disabled) {
+          input.value = value;
+        }
+
+        input.classList[
+          value !== self.presets.find((_) => _.name === key).value
+            ? 'add'
+            : 'remove'
+        ]('super-options-value-modified');
+      }
+
+      const formIsDirty = self.presets.filter(
+        (preset) => preset.value !== this.get(preset.name)
+      ).length;
+      if (resetButton) {
+        resetButton.disabled = !formIsDirty;
+      }
+      if (updateOptionsButton) {
+        updateOptionsButton.disabled = !formIsDirty;
+      }
+
+      // @TODO: update deserailzed_value
+      // https://github.com/naholyr/js-php-unserialize/blob/master/php-unserialize.js
+    }
+    reset() {
+      this.clear();
+      for (const preset of self.presets) {
+        this.set(preset.name, preset.value);
+      }
+    }
+  })();
+
+  optionsForm.addEventListener('change', (event) => {
+    if (
+      event.target.tagName === 'INPUT' &&
+      event.target.type === 'text' &&
+      event.target.name
+    ) {
+      const input = optionsForm.querySelector(
+        `TR INPUT[type="text"][name="${event.target.name}"]`
+      );
+      if (event.target === input) {
+        values.set(input.name, input.value);
+      }
+    }
+  });
 
   const filterFormContainer = document.createElement('div');
 
@@ -80,14 +120,21 @@ window['super-options'] = function () {
               placeholder="localhost !*update*"
               title="Example : 'localhost !*update*'" 
             >
-            <div></div>
+            <div>
+              <button 
+                id="super-options-filter-actions-reset"
+                type="button"
+                class="button"
+                title="Reset option values."
+              >Reset</button>
+            </div>
             <div class="super-options-filter-actions"> 
               <button 
                 id="super-options-filter-actions-export"
                 type="button"
                 class="button"
                 title="Export filtered options to JSON file."
-              >Export filtered options</button>
+              ><span class="dashicons dashicons-download"></span>Export filtered options</button>
               <input
                 id="super-options-filter-actions-import-file"
                 type="file"
@@ -98,7 +145,7 @@ window['super-options'] = function () {
                 type="file"
                 class="button"
                 title="Import options from JSON file."
-              >Import options</button>
+              ><span class="dashicons dashicons-upload"></span>Import options</button>
             </div>
           </div>
         </fieldset>
@@ -109,9 +156,7 @@ window['super-options'] = function () {
   for (const row of optionsForm.querySelectorAll('TR')) {
     const input = row.querySelector('INPUT[type="text"]');
 
-    const preset = window['super-options'].presets.find(
-      (preset) => preset.name === input.name
-    );
+    const preset = self.presets.find((preset) => preset.name === input.name);
 
     const TR = document.createElement('TR');
     TR.classList.add('super-options-additional-table-row');
@@ -149,33 +194,34 @@ window['super-options'] = function () {
     row.parentNode.insertBefore(TR, row.nextSibling);
   }
 
-  const nameFilterInput = document.querySelector('#super-options-name-filter');
-  const valueFilterInput = document.querySelector(
-    '#super-options-value-filter'
-  );
+  nameFilterInput = document.querySelector('#super-options-name-filter');
+  valueFilterInput = document.querySelector('#super-options-value-filter');
+  resetButton = document.querySelector('#super-options-filter-actions-reset');
+  resetButton.disabled = true;
+  resetButton.onclick = () => {
+    values.reset();
+  };
 
-  const exportButton = document.querySelector(
-    '#super-options-filter-actions-export'
-  );
-  const importButton = document.querySelector(
-    '#super-options-filter-actions-import'
-  );
-  const importFileInput = document.querySelector(
+  exportButton = document.querySelector('#super-options-filter-actions-export');
+  importButton = document.querySelector('#super-options-filter-actions-import');
+  importFileInput = document.querySelector(
     '#super-options-filter-actions-import-file'
   );
+  updateOptionsButton = optionsForm.querySelector(
+    '.submit input[type="submit"]'
+  );
+  updateOptionsButton.disabled = true;
 
   const filterSettings = debounce(() => {
     const byNameRules = parseFilter(nameFilterInput.value, true);
     const byValueRules = parseFilter(valueFilterInput.value, false);
 
-    for (const tr of document.querySelectorAll(
-      'form[action="options.php"] TR:not(.super-options-additional-table-row)'
+    for (const tr of optionsForm.querySelectorAll(
+      'TR:not(.super-options-additional-table-row)'
     )) {
       const input = tr.querySelector('input[type="text"]');
 
-      const preset = window['super-options'].presets.find(
-        (preset) => preset.name === input.name
-      );
+      const preset = self.presets.find((preset) => preset.name === input.name);
 
       if (preset) {
         const nameMatchesRules = matchesRules(byNameRules, preset.name);
@@ -195,8 +241,8 @@ window['super-options'] = function () {
       }
     }
 
-    exportButton.disabled = !document.querySelectorAll(
-      'form[action="options.php"] TR:not(.super-options-additional-table-row):not(.super-options-option-hidden)'
+    exportButton.disabled = !optionsForm.querySelectorAll(
+      'TR:not(.super-options-additional-table-row):not(.super-options-option-hidden)'
     ).length;
   });
 
@@ -206,17 +252,37 @@ window['super-options'] = function () {
   exportButton.onclick = () => {
     console.log('export clicked');
 
-    const optionsToExport = Object.fromEntries(
-      Array.from(
-        document.querySelectorAll(
-          'form[action="options.php"] TR:not(.super-options-additional-table-row):not(.super-options-option-hidden) input[type="text"]:not(:disabled)'
-        )
-      ).map((input) => [input.name, input.value])
+    const matchingOptions = Array.from(
+      optionsForm.querySelectorAll(
+        'TR:not(.super-options-additional-table-row):not(.super-options-option-hidden) input[type="text"]'
+      )
+    ).map((input) => input.name);
+    const json = JSON.stringify(
+      {
+        filters: {
+          name: nameFilterInput.value,
+          value: valueFilterInput.value,
+        },
+        options: Object.fromEntries(
+          Array.from(values.entries()).filter(([name]) =>
+            matchingOptions.includes(name)
+          )
+        ),
+      },
+      null,
+      2
     );
-
-    // @TODO: write file to local storage
-
-    console.log({optionsToExport});
+    /* download json to local file */
+    const link = document.createElement('a');
+    link.target = '_blank';
+    link.style.display = 'none';
+    const blob = new Blob([json], {type: 'application/json;charset=utf-8'});
+    link.href = URL.createObjectURL(blob);
+    link.download = 'super-options.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    /* -- */
   };
 
   importButton.onclick = () => {
@@ -229,19 +295,38 @@ window['super-options'] = function () {
     const file = event.target.files[0];
 
     try {
-      const options = JSON.parse(await file.text());
+      const json = JSON.parse(await file.text());
 
-      console.log({options});
+      nameFilterInput.value = json?.filters?.name ?? '';
+      valueFilterInput.value = json?.filters?.value ?? '';
 
-      // @TODO: apply json to options fields
+      for (const [name, value] of Object.entries(json?.options ?? {})) {
+        values.set(name, value);
+      }
 
+      filterSettings();
       // @TODO: highlight updated option input fields
     } catch (ex) {
       alert(`Failed to load json from file ${file.name}: ${ex.message}`);
     }
 
+    // reset file upload filed to be able to triger import again
     event.target.value = '';
   };
+
+  for (const tr of optionsForm.querySelectorAll(
+    'TR:not(.super-options-additional-table-row)'
+  )) {
+    const input = tr.querySelector('input[type="text"].disabled');
+    if (input) {
+      const details = tr.nextElementSibling.querySelector('details');
+
+      if (details) {
+        input.parentNode.title = 'Click to toggle deserialized value view';
+        input.parentNode.onclick = () => (details.open = !details.open);
+      }
+    }
+  }
 
   filterSettings();
 };
