@@ -1,5 +1,6 @@
 import './index.scss';
 // import memoize from './memoize.js';
+import unserialize from './php-unserialize.js';
 import debounce from './debounce.js';
 import {parseFilter, matchesRules} from './rules.js';
 
@@ -44,15 +45,15 @@ window['super-options'] = function () {
       );
 
       if (input) {
+        const preset = self.presets.find((_) => _.name === key);
+
         if (!input.disabled) {
           input.value = value;
         }
 
-        input.classList[
-          value !== self.presets.find((_) => _.name === key).value
-            ? 'add'
-            : 'remove'
-        ]('super-options-value-modified');
+        input.classList[value !== preset.value ? 'add' : 'remove'](
+          'super-options-value-modified'
+        );
       }
 
       const formIsDirty = self.presets.filter(
@@ -64,9 +65,6 @@ window['super-options'] = function () {
       if (updateOptionsButton) {
         updateOptionsButton.disabled = !formIsDirty;
       }
-
-      // @TODO: update deserailzed_value
-      // https://github.com/naholyr/js-php-unserialize/blob/master/php-unserialize.js
     }
     reset() {
       this.clear();
@@ -302,12 +300,52 @@ window['super-options'] = function () {
       nameFilterInput.value = json?.filters?.name ?? '';
       valueFilterInput.value = json?.filters?.value ?? '';
 
+      const ignoredSettings = [];
+
       for (const [name, value] of Object.entries(json?.options ?? {})) {
-        values.set(name, value);
+        if (values.has(name)) {
+          values.set(name, value);
+        } else {
+          ignoredSettings.push(name);
+        }
+      }
+
+      if (ignoredSettings.length) {
+        alert(
+          'The following settings were not imported: \n\n' +
+            ignoredSettings.join(', ') +
+            '\n\n Only existing wordpress settings can be imported for safety reasons.'
+        );
       }
 
       filterSettings();
-      // @TODO: highlight updated option input fields
+
+      const trs = Array.from(
+        document.querySelectorAll('TR:not(.super-options-additional-table-row')
+      );
+      for (const preset of self.presets) {
+        const value = values.get(preset.name);
+
+        if (preset.value !== value && preset.unserialized_value) {
+          for (const tr of trs) {
+            if (tr.querySelector(`INPUT[type="text"][name="${preset.name}"]`)) {
+              const pre = tr.nextElementSibling.querySelector('PRE');
+
+              if (pre) {
+                let textContent = preset.unserialized_value
+                  ? JSON.stringify(unserialize(value), null, '  ')
+                  : value;
+
+                if (textContent.includes('\n')) {
+                  textContent = textContent.replace(/</gm, '&lt;');
+                }
+
+                pre.textContent = textContent;
+              }
+            }
+          }
+        }
+      }
     } catch (ex) {
       alert(`Failed to load json from file ${file.name}: ${ex.message}`);
     }

@@ -16,6 +16,15 @@
 
 namespace wp_flausen\super_options;
 
+add_action('admin_menu', function () {
+  \add_options_page(
+    __('All settings'),
+    __('Super options'),
+    'administrator',
+    'options.php?super-options-filter-name=*foo*;super-options-readonly='
+  );
+});
+
 \add_action('load-options.php', function () {
   $allowedOptions = [];
 
