@@ -7,6 +7,7 @@
   align-content: flex-start;
 
   padding: 5px;
+
   /*
     flexbox gap is unfortunely not supported in safari
     (https://caniuse.com/#feat=flexbox-gap)
@@ -16,6 +17,7 @@
   > * {
     margin: 2.5px;
   }
+
   @supports (gap: 5px) {
     > * {
       margin: 0;
@@ -61,6 +63,7 @@
     &.react-tag-input--dragged {
       // highlight the dragged tag in some kind
       mix-blend-mode: difference;
+
       > * > .components-button {
         visibility: hidden;
       }
@@ -80,7 +83,7 @@
         // let it have same with as the input components-text-control__input
         width: 217px;
         // let it have same margin as the input components-text-control__input
-        margin: 0px;
+        margin: 0;
       }
     }
   }

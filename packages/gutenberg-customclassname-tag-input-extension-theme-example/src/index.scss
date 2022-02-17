@@ -1,63 +1,64 @@
 /* appliable styles */
 .theme-custom-text-thick {
-  font-weight: bold;
+	font-weight: 600;
 }
 
 .theme-custom-text-thin {
-  font-weight: lighter;
+	font-weight: lighter;
 }
 
 .theme-custom-spacing-small {
-  padding: 1em;
+	padding: 1em;
 }
 
 .theme-custom-spacing-medium {
-  padding: 2em;
+	padding: 2em;
 }
 
 .theme-custom-spacing-large {
-  padding: 3em;
+	padding: 3em;
 }
 
 .theme-custom-background-dark {
-  background-color: rgb(85, 85, 85);
+	background-color: rgb(85, 85, 85);
 }
 
 .theme-custom-background-bright {
-  background-color: rgb(233, 220, 220);
+	background-color: rgb(233, 220, 220);
 }
 
 .theme-custom-foreground-dark {
-  color: rgb(85, 85, 85);
+	color: rgb(85, 85, 85);
 }
 
 .theme-custom-foreground-bright {
-  color: rgb(233, 220, 220);
+	color: rgb(233, 220, 220);
 }
 
 .theme-custom-effect-funky {
-  transform: rotate(-5deg);
+	transform: rotate(-5deg);
 }
 
 /* style for the rendered tag categories */
 .react-tag-input {
-  .gutenberg-customclassname-tag-input-extension-tag-category__text {
-    background-color: #f0f8ff;
-    color: #333;
-  }
 
-  .gutenberg-customclassname-tag-input-extension-tag-category__spacing {
-    background-color: #789899;
-    color: #fff;
-  }
+	.gutenberg-customclassname-tag-input-extension-tag-category__text {
+		background-color: #f0f8ff;
+		color: #333;
+	}
 
-  .gutenberg-customclassname-tag-input-extension-tag-category__foreground {
-    background-color: #69aade;
-    color: white;
-  }
+	.gutenberg-customclassname-tag-input-extension-tag-category__spacing {
+		background-color: #789899;
+		color: #fff;
+	}
 
-  .gutenberg-customclassname-tag-input-extension-tag-category__background {
-    background-color: #c07f7f;
-    color: white;
-  }
+	.gutenberg-customclassname-tag-input-extension-tag-category__foreground {
+		background-color: #69aade;
+		color: white;
+	}
+
+	.gutenberg-customclassname-tag-input-extension-tag-category__background {
+		background-color: #c07f7f;
+		color: white;
+	}
 }

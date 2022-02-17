@@ -1,19 +1,19 @@
-LABEL {
+label {
   white-space: nowrap;
 }
 
 .super-options-container {
   .super-options-form {
-    FIELDSET {
+    fieldset {
       padding-top: 4px;
     }
 
-    LABEL,
-    LEGEND {
+    label,
+    legend {
       font-size: 14px;
     }
 
-    LEGEND {
+    legend {
       font-weight: 600;
     }
 
@@ -31,18 +31,16 @@ LABEL {
       .super-options-filter-actions {
         justify-self: end;
 
+        button {
+          display: inline-flex;
+
+          span.dashicons {
+            align-self: center;
+          }
+        }
+
         #super-options-filter-actions-import-file {
           display: none;
-        }
-      }
-    }
-
-    .super-options-filter-actions {
-      button {
-        display: inline-flex;
-
-        span.dashicons {
-          align-self: center;
         }
       }
     }
@@ -55,7 +53,7 @@ LABEL {
 
     > .super-options-additional-table-row-column-deserialized-value,
     > .super-options-additional-table-row-column-value {
-      PRE {
+      pre {
         margin: 0;
         line-height: 1;
         overflow: auto;
@@ -81,8 +79,9 @@ tr {
 
   td {
     input[type='text'].super-options-value-modified {
-      background-color: #2271b1;
-      color: #fff;
+      border-inline: 2px solid #2271b1;
+      // background-color: #2271b1;
+      // color: #fff;
     }
   }
 }

@@ -1,3 +1,5 @@
+/* stylelint-disable max-line-length */
+
 /*
  Theme Name:   gutenberg-customclassname-tag-input-extension-theme-example
  Theme URI:    https://cm4all.com/
@@ -13,4 +15,4 @@
  @package           wp-flausen/gutenberg-customclassname-tag-input-extension-theme-example
 */
 
-@import url('../build/index.css');
+@import url(../build/index.css);

@@ -1,18 +1,18 @@
 {
-	"$schema": "https://json.schemastore.org/block.json",
-	"apiVersion": 2,
-	"name": "create-block/foo",
-	"version": "0.1.0",
-	"title": "Foo",
-	"category": "widgets",
-	"icon": "smiley",
-	"description": "Example block written with ESNext standard and JSX support – build step required.",
-	"supports": {
-		"html": false
-	},
-	"textdomain": "foo",
-	"editorScript": "file:./build/index.js",
-	"_editorScript": "create-block-foo-editor-script",
-	"editorStyle": "file:./build/index.css",
-	"style": "file:./build/style-index.css"
+  "$schema": "https://json.schemastore.org/block.json",
+  "apiVersion": 2,
+  "name": "create-block/foo",
+  "version": "0.1.0",
+  "title": "Foo",
+  "category": "widgets",
+  "icon": "smiley",
+  "description": "Example block written with ESNext standard and JSX support – build step required.",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "foo",
+  "editorScript": "file:./build/index.js",
+  "_editorScript": "create-block-foo-editor-script",
+  "editorStyle": "file:./build/index.css",
+  "style": "file:./build/style-index.css"
 }

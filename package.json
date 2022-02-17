@@ -11,8 +11,8 @@
     "build:watch": "lerna run build:watch",
     "lerna": "lerna",
     "commit": "lint-staged && git-cz --disable-emoji",
-    "lint": "prettier --check '**/*.{js,jxs,json,css,scss,php,md,yml}'; eslint --ext js,jsx .; stylelint '**/*.{css,scss}'",
-    "lint-fix": "prettier --check --write '**/*.{js,jsx,json,css,scss,php,md,yml}'; eslint --ext js,jsx --fix .; stylelint '**/*.{css,scss}' --fix",
+    "lint": "prettier --check 'packages/**/*.{js,jxs,json,css,scss,php,md,yml}'; eslint --ext js,jsx .; stylelint './packages/**/*.{css,scss}'",
+    "lint-fix": "prettier --check --write 'packages/**/*.{js,jsx,json,css,scss,php,md,yml}'; eslint --ext js,jsx --fix .; stylelint './packages/**/*.{css,scss}' --fix",
     "wp-env:start": "WP_ENV_HOME=wp-env-home node_modules/.bin/wp-env start --xdebug --debug",
     "wp-env:stop": "WP_ENV_HOME=wp-env-home node_modules/.bin/wp-env stop",
     "wp-env:destroy": "WP_ENV_HOME=wp-env-home node_modules/.bin/wp-env destroy"
@@ -34,6 +34,7 @@
     "@storybook/addon-essentials": "^6.4.14",
     "@storybook/addon-links": "^6.4.14",
     "@storybook/react": "^6.4.14",
+    "@wordpress/env": "^4.1.3",
     "babel-loader": "^8.2.3",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
@@ -47,12 +48,11 @@
     "prettier": "^2.5.1",
     "sass": "^1.49.0",
     "storybook-builder-vite": "^0.1.13",
-    "stylelint": "^14.3.0",
+    "stylelint": "^14.5.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-recommended-scss": "^5.0.2",
     "stylelint-scss": "^4.1.0",
-    "vite": "^2.7.13",
-    "@wordpress/env": "^4.1.3"
+    "vite": "^2.7.13"
   },
   "lint-staged": {
     "*.{js,jsx,json,css,scss,php,md,yml}": "prettier --write",
@@ -70,11 +70,5 @@
     "semi": true,
     "arrowParens": "always",
     "bracketSpacing": false
-  },
-  "stylelint": {
-    "extends": [
-      "stylelint-config-recommended-scss",
-      "stylelint-config-prettier"
-    ]
   }
 }

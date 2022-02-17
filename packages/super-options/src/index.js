@@ -1,5 +1,5 @@
 import './index.scss';
-import memoize from './memoize.js';
+// import memoize from './memoize.js';
 import debounce from './debounce.js';
 import {parseFilter, matchesRules} from './rules.js';
 
@@ -276,7 +276,9 @@ window['super-options'] = function () {
     const link = document.createElement('a');
     link.target = '_blank';
     link.style.display = 'none';
-    const blob = new Blob([json], {type: 'application/json;charset=utf-8'});
+    const blob = new Blob([json], {
+      type: 'application/json;charset=utf-8',
+    });
     link.href = URL.createObjectURL(blob);
     link.download = 'super-options.json';
     document.body.appendChild(link);

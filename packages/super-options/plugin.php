@@ -26,11 +26,10 @@ namespace wp_flausen\super_options;
     return $_allowedOptions;
   });
 
-  \get_current_screen()->add_help_tab(
-    [
-      'id'      => 'help-overview',
-      'title'   => __('Overview', 'super-options'),
-      'content' => '
+  \get_current_screen()->add_help_tab([
+    'id' => 'help-overview',
+    'title' => __('Overview', 'super-options'),
+    'content' => '
       <p>
         Super-options extends Wordpress options by
         <ul>
@@ -41,14 +40,12 @@ namespace wp_flausen\super_options;
         </ul>
       </p>
     ',
-    ]
-  );
+  ]);
 
-  \get_current_screen()->add_help_tab(
-    [
-      'id'      => 'help-filter',
-      'title'   => __('Filter', 'super-options'),
-      'content' => '
+  \get_current_screen()->add_help_tab([
+    'id' => 'help-filter',
+    'title' => __('Filter', 'super-options'),
+    'content' => '
       <p>
       Name and Value Filter supports comma/space separated list of wildcard expressions.
       </p>
@@ -65,35 +62,29 @@ namespace wp_flausen\super_options;
           </p>
         </li>
       </p>
-    '
-    ]
-  );
+    ',
+  ]);
 
-  \get_current_screen()->add_help_tab(
-    [
-      'id'      => 'help-export',
-      'title'   => __('Export', 'super-options'),
-      'content' => '
+  \get_current_screen()->add_help_tab([
+    'id' => 'help-export',
+    'title' => __('Export', 'super-options'),
+    'content' => '
         <p>TODO</p>
-    '
-    ]
-  );
+    ',
+  ]);
 
-  \get_current_screen()->add_help_tab(
-    [
-      'id'      => 'help-import',
-      'title'   => __('Import', 'super-options'),
-      'content' => '
+  \get_current_screen()->add_help_tab([
+    'id' => 'help-import',
+    'title' => __('Import', 'super-options'),
+    'content' => '
         <p>TODO</p>
-    '
-    ]
-  );
+    ',
+  ]);
 
-  \get_current_screen()->add_help_tab(
-    [
-      'id'      => 'help-integration',
-      'title'   => __('Integration', 'super-options'),
-      'content' => '
+  \get_current_screen()->add_help_tab([
+    'id' => 'help-integration',
+    'title' => __('Integration', 'super-options'),
+    'content' => '
 <p>TODO</p>
 <pre>
 function super_options_dashboard_link() { 
@@ -101,16 +92,21 @@ function super_options_dashboard_link() {
 } 
 add_action("admin_menu", "foo settings");
 </pre>
-    '
-    ]
-  );
+    ',
+  ]);
 
   \get_current_screen()->set_help_sidebar(
     sprintf(
       '<p><strong>%s</strong></p><p>%s</p><p>%s</p>',
       __('For more information:', 'super-options'),
-      __('<a href="https://wordpress.org/plugins/cm4all-wp-super-options/">super-options Homepage</a>', 'super-options'),
-      __('<a href="https://wordpress.org/plugins/cm4all-wp-super-options/">Support</a>', 'super-options')
+      __(
+        '<a href="https://wordpress.org/plugins/cm4all-wp-super-options/">super-options Homepage</a>',
+        'super-options'
+      ),
+      __(
+        '<a href="https://wordpress.org/plugins/cm4all-wp-super-options/">Support</a>',
+        'super-options'
+      )
     )
   );
 
@@ -171,10 +167,7 @@ add_action("admin_menu", "foo settings");
         sprintf('window["super-options"].presets = %s;', json_encode($options))
       );
 
-      \wp_add_inline_script(
-        $HANDLE,
-        'window["super-options"]();'
-      );
+      \wp_add_inline_script($HANDLE, 'window["super-options"]();');
     }
   });
 });
