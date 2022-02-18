@@ -16,12 +16,29 @@
 
 namespace wp_flausen\super_options;
 
-add_action('admin_menu', function () {
+if (!defined('ABSPATH')) {
+  exit();
+}
+
+\add_action('admin_menu', function () {
   \add_options_page(
     __('All settings'),
-    __('Super options'),
+    __('All settings'),
     'administrator',
-    'options.php?super-options-filter-name=*foo*;super-options-readonly='
+    'options.php'
+  );
+
+  \add_options_page(
+    __('*cm4all* settings'),
+    __('*cm4all* settings'),
+    'administrator',
+    \add_query_arg(
+      [
+        'super-options-filter-name' => '*cm4all*',
+        // 'super-options-filter-value' => '*font*',
+      ],
+      'options.php'
+    )
   );
 });
 
@@ -43,7 +60,7 @@ add_action('admin_menu', function () {
         Super-options extends Wordpress options by
         <ul>
           <li>Filtering by name and values.</li>
-          <li>Display serialized data values in option tooltip</li>
+          <li>Display serialized php data values</li>
           <li>Export Wordpress options to JSON</li>
           <li>Import Wordpress options from JSON</li>
         </ul>
@@ -78,7 +95,7 @@ add_action('admin_menu', function () {
     'id' => 'help-export',
     'title' => __('Export', 'super-options'),
     'content' => '
-        <p>TODO</p>
+        <p>Enter a filter matching your need and press the <kbd>Export filtered options</kbd> Button</p>
     ',
   ]);
 
@@ -86,7 +103,7 @@ add_action('admin_menu', function () {
     'id' => 'help-import',
     'title' => __('Import', 'super-options'),
     'content' => '
-        <p>TODO</p>
+    <p>Press the <kbd>Import options</kbd> Button and select a options export.</p>
     ',
   ]);
 
@@ -94,12 +111,20 @@ add_action('admin_menu', function () {
     'id' => 'help-integration',
     'title' => __('Integration', 'super-options'),
     'content' => '
-<p>TODO</p>
+<p>Just add the following code to your plugins php to add a filtered settings page</p>
 <pre>
-function super_options_dashboard_link() { 
-  add_options_page(__("All Settings"), __("All Settings"), "administrator", "options.php?super-options-filter-name=*foo*;super-options-readonly="); 
-} 
-add_action("admin_menu", "foo settings");
+\add_options_page(
+  __("*cm4all* settings"),
+  __("*cm4all* settings"),
+  "administrator",
+  \add_query_arg(
+    [
+      "super-options-filter-name" => "*cm4all*",
+      // "super-options-filter-value" => "*font*",
+    ],
+    "options.php"
+  )
+);
 </pre>
     ',
   ]);

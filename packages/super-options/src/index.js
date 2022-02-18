@@ -74,6 +74,41 @@ window['super-options'] = function () {
     }
   })();
 
+  function updateOptionDetails() {
+    const trs = Array.from(
+      document.querySelectorAll('TR:not(.super-options-additional-table-row')
+    );
+    for (const preset of self.presets) {
+      const value = values.get(preset.name);
+
+      if (/*preset.value !== value &&*/ preset.unserialized_value) {
+        for (const tr of trs) {
+          if (tr.querySelector(`INPUT[type="text"][name="${preset.name}"]`)) {
+            const pre = tr.nextElementSibling.querySelector('PRE');
+
+            if (pre) {
+              try {
+                let textContent = preset.unserialized_value
+                  ? JSON.stringify(unserialize(value), null, '  ')
+                  : value;
+
+                if (textContent.includes('\n')) {
+                  textContent = textContent.replace(/</gm, '&lt;');
+                }
+
+                pre.textContent = textContent;
+              } catch (ex) {
+                alert(
+                  `Error while unserializing php value of option "${preset.name}" :\n\n${value}\n\n${ex.message}`
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   optionsForm.addEventListener('change', (event) => {
     if (
       event.target.tagName === 'INPUT' &&
@@ -97,7 +132,7 @@ window['super-options'] = function () {
   filterFormContainer.innerHTML = `
     <form onSubmit="return false;" class="super-options-form">
       <fieldset>
-        <legend>Super options</legend>
+        <legend></legend>
         <fieldset>
           <legend>Filter</legend>
           <div class="super-options-filter">
@@ -198,6 +233,8 @@ window['super-options'] = function () {
   resetButton.disabled = true;
   resetButton.onclick = () => {
     values.reset();
+
+    updateOptionDetails();
   };
 
   exportButton = document.querySelector('#super-options-filter-actions-export');
@@ -320,32 +357,7 @@ window['super-options'] = function () {
 
       filterSettings();
 
-      const trs = Array.from(
-        document.querySelectorAll('TR:not(.super-options-additional-table-row')
-      );
-      for (const preset of self.presets) {
-        const value = values.get(preset.name);
-
-        if (preset.value !== value && preset.unserialized_value) {
-          for (const tr of trs) {
-            if (tr.querySelector(`INPUT[type="text"][name="${preset.name}"]`)) {
-              const pre = tr.nextElementSibling.querySelector('PRE');
-
-              if (pre) {
-                let textContent = preset.unserialized_value
-                  ? JSON.stringify(unserialize(value), null, '  ')
-                  : value;
-
-                if (textContent.includes('\n')) {
-                  textContent = textContent.replace(/</gm, '&lt;');
-                }
-
-                pre.textContent = textContent;
-              }
-            }
-          }
-        }
-      }
+      updateOptionDetails();
     } catch (ex) {
       alert(`Failed to load json from file ${file.name}: ${ex.message}`);
     }
@@ -367,8 +379,25 @@ window['super-options'] = function () {
       }
     }
   }
+  const urlParams = Object.fromEntries(
+    new URLSearchParams(document.location.search)
+  );
+  nameFilterInput.value = urlParams['super-options-filter-name'] ?? '';
+  valueFilterInput.value = urlParams['super-options-filter-value'] ?? '';
 
   filterSettings();
+
+  optionsForm.onsubmit = function () {
+    // transfer values into form
+    // enable input fields to be able to submit
+    for (const [name, value] of values.entries()) {
+      const input = this.querySelector(`input[name="${name}"]`);
+      if (input) {
+        input.value = value;
+        input.disabled = false;
+      }
+    }
+  };
 };
 
 window['super-options'].allowedOptions = [];

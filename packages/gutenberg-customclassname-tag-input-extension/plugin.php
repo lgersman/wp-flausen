@@ -18,6 +18,10 @@ namespace wp_flausen\gutenberg_customclassname_tag_input_extension;
 
 namespace wp_flausen\gutenberg_customclassname_tag_input_extension;
 
+if (!defined('ABSPATH')) {
+  exit();
+}
+
 \add_action('enqueue_block_editor_assets', function () {
   $HANDLE = str_replace('_', '-', __NAMESPACE__);
 
