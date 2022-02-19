@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Plugin Name:       super-options
- * Description:       A pimped wordpress options screen including filter and import/export capabilities.
+ * Plugin Name:       cm4all-wp-settings
+ * Description:       A pimped settings screen (aka `php.options`) including filter and import/export capabilities.
  * Requires at least: 5.8
  * Requires PHP:      7.0
  * Version:           0.1.0
  * Author:            The WordPress Contributors
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       super-options
+ * Text Domain:       cm4all-wp-settings
  *
- * @package           wp-flausen/super-options
+ * @package           wp-flausen/cm4all-wp-settings
  */
 
 namespace wp_flausen\super_options;
@@ -28,18 +28,18 @@ if (!defined('ABSPATH')) {
     'options.php'
   );
 
-  \add_options_page(
-    __('*cm4all* settings'),
-    __('*cm4all* settings'),
-    'administrator',
-    \add_query_arg(
-      [
-        'super-options-filter-name' => '*cm4all*',
-        // 'super-options-filter-value' => '*font*',
-      ],
-      'options.php'
-    )
-  );
+  // \add_options_page(
+  //   __('*cm4all* settings'),
+  //   __('*cm4all* settings'),
+  //   'administrator',
+  //   \add_query_arg(
+  //     [
+  //       'cm4all-wp-settings-filter-name' => '*cm4all*',
+  //       // 'cm4all-wp-settings-filter-value' => '*font*',
+  //     ],
+  //     'options.php'
+  //   )
+  // );
 });
 
 \add_action('load-options.php', function () {
@@ -54,10 +54,10 @@ if (!defined('ABSPATH')) {
 
   \get_current_screen()->add_help_tab([
     'id' => 'help-overview',
-    'title' => __('Overview', 'super-options'),
+    'title' => __('Overview', 'cm4all-wp-settings'),
     'content' => '
       <p>
-        Super-options extends Wordpress options by
+        cm4all-wp-settings extends Wordpress settings page by
         <ul>
           <li>Filtering by name and values.</li>
           <li>Display serialized php data values</li>
@@ -70,7 +70,7 @@ if (!defined('ABSPATH')) {
 
   \get_current_screen()->add_help_tab([
     'id' => 'help-filter',
-    'title' => __('Filter', 'super-options'),
+    'title' => __('Filter', 'cm4all-wp-settings'),
     'content' => '
       <p>
       Name and Value Filter supports comma/space separated list of wildcard expressions.
@@ -93,7 +93,7 @@ if (!defined('ABSPATH')) {
 
   \get_current_screen()->add_help_tab([
     'id' => 'help-export',
-    'title' => __('Export', 'super-options'),
+    'title' => __('Export', 'cm4all-wp-settings'),
     'content' => '
         <p>Enter a filter matching your need and press the <kbd>Export filtered options</kbd> Button</p>
     ',
@@ -101,7 +101,7 @@ if (!defined('ABSPATH')) {
 
   \get_current_screen()->add_help_tab([
     'id' => 'help-import',
-    'title' => __('Import', 'super-options'),
+    'title' => __('Import', 'cm4all-wp-settings'),
     'content' => '
     <p>Press the <kbd>Import options</kbd> Button and select a options export.</p>
     ',
@@ -109,7 +109,7 @@ if (!defined('ABSPATH')) {
 
   \get_current_screen()->add_help_tab([
     'id' => 'help-integration',
-    'title' => __('Integration', 'super-options'),
+    'title' => __('Integration', 'cm4all-wp-settings'),
     'content' => '
 <p>Just add the following code to your plugins php to add a filtered settings page</p>
 <pre>
@@ -119,8 +119,8 @@ if (!defined('ABSPATH')) {
   "administrator",
   \add_query_arg(
     [
-      "super-options-filter-name" => "*cm4all*",
-      // "super-options-filter-value" => "*font*",
+      "cm4all-wp-settings-filter-name" => "*cm4all*",
+      // "cm4all-wp-settings-filter-value" => "*font*",
     ],
     "options.php"
   )
@@ -132,14 +132,14 @@ if (!defined('ABSPATH')) {
   \get_current_screen()->set_help_sidebar(
     sprintf(
       '<p><strong>%s</strong></p><p>%s</p><p>%s</p>',
-      __('For more information:', 'super-options'),
+      __('For more information:', 'cm4all-wp-settings'),
       __(
-        '<a href="https://wordpress.org/plugins/cm4all-wp-super-options/">super-options Homepage</a>',
-        'super-options'
+        '<a href="https://wordpress.org/plugins/cm4all-wp-cm4all-wp-settings/">cm4all-wp-settings Homepage</a>',
+        'cm4all-wp-settings'
       ),
       __(
-        '<a href="https://wordpress.org/plugins/cm4all-wp-super-options/">Support</a>',
-        'super-options'
+        '<a href="https://wordpress.org/plugins/cm4all-wp-cm4all-wp-settings/">Support</a>',
+        'cm4all-wp-settings'
       )
     )
   );
@@ -158,7 +158,7 @@ if (!defined('ABSPATH')) {
         filemtime(__DIR__ . '/build/index.js'),
         true
       );
-      \wp_set_script_translations($HANDLE, 'super-options');
+      \wp_set_script_translations($HANDLE, 'cm4all-wp-settings');
 
       \wp_enqueue_style(
         $HANDLE,
@@ -171,7 +171,7 @@ if (!defined('ABSPATH')) {
       \wp_add_inline_script(
         $HANDLE,
         sprintf(
-          'window["super-options"].allowedOptions = %s;',
+          'window["cm4all-wp-settings"].allowedOptions = %s;',
           json_encode($allowedOptions)
         )
       );
@@ -198,10 +198,10 @@ if (!defined('ABSPATH')) {
       // attach allowed options to options page as global variable
       \wp_add_inline_script(
         $HANDLE,
-        sprintf('window["super-options"].presets = %s;', json_encode($options))
+        sprintf('window["cm4all-wp-settings"].presets = %s;', json_encode($options))
       );
 
-      \wp_add_inline_script($HANDLE, 'window["super-options"]();');
+      \wp_add_inline_script($HANDLE, 'window["cm4all-wp-settings"]();');
     }
   });
 });

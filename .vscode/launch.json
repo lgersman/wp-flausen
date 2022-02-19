@@ -14,7 +14,7 @@
       "pathMappings": {
         "/var/www/html/wp-content/plugins/create-block-foo": "${workspaceFolder}/packages/create-block-foo",
         "/var/www/html/wp-content/plugins/gutenberg-customclassname-tag-input-extension": "${workspaceFolder}/packages/gutenberg-customclassname-tag-input-extension",
-        "/var/www/html/wp-content/plugins/super-options": "${workspaceFolder}/packages/super-options",
+        "/var/www/html/wp-content/plugins/cm4all-wp-settings": "${workspaceFolder}/packages/cm4all-wp-settings",
         "/var/www/html/wp-content/themes/gutenberg-customclassname-tag-input-extension-theme-example": "${workspaceFolder}/packages/gutenberg-customclassname-tag-input-extension-theme-example",
         "/var/www/html": "${workspaceFolder}/wp-env-home/5d27ad339698af838d4830092595a2c3/WordPress"
       }

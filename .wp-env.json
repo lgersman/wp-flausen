@@ -2,7 +2,7 @@
   "core": "WordPress/WordPress#5.9",
   "plugins": [
     "./packages/create-block-foo",
-    "./packages/super-options",
+    "./packages/cm4all-wp-settings",
     "./packages/gutenberg-customclassname-tag-input-extension"
   ],
   "themes": [

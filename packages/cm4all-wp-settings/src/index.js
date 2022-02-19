@@ -4,8 +4,8 @@ import unserialize from './php-unserialize.js';
 import debounce from './debounce.js';
 import {parseFilter, matchesRules} from './rules.js';
 
-window['super-options'] = function () {
-  const self = window['super-options'];
+window['cm4all-wp-settings'] = function () {
+  const self = window['cm4all-wp-settings'];
   const optionsForm = document.querySelector('form[action="options.php"]');
 
   let nameFilterInput,
@@ -52,7 +52,7 @@ window['super-options'] = function () {
         }
 
         input.classList[value !== preset.value ? 'add' : 'remove'](
-          'super-options-value-modified'
+          'cm4all-wp-settings-value-modified'
         );
       }
 
@@ -76,7 +76,9 @@ window['super-options'] = function () {
 
   function updateOptionDetails() {
     const trs = Array.from(
-      document.querySelectorAll('TR:not(.super-options-additional-table-row')
+      document.querySelectorAll(
+        'TR:not(.cm4all-wp-settings-additional-table-row'
+      )
     );
     for (const preset of self.presets) {
       const value = values.get(preset.name);
@@ -128,53 +130,53 @@ window['super-options'] = function () {
 
   optionsForm.parentNode.insertBefore(filterFormContainer, optionsForm);
 
-  filterFormContainer.classList.add('super-options-container');
+  filterFormContainer.classList.add('cm4all-wp-settings-container');
   filterFormContainer.innerHTML = `
-    <form onSubmit="return false;" class="super-options-form">
+    <form onSubmit="return false;" class="cm4all-wp-settings-form">
       <fieldset>
         <legend></legend>
         <fieldset>
           <legend>Filter</legend>
-          <div class="super-options-filter">
-            <label for="super-options-name-filter">Name matches:</label>
+          <div class="cm4all-wp-settings-filter">
+            <label for="cm4all-wp-settings-name-filter">Name matches:</label>
             <input 
               type="text" 
-              id="super-options-name-filter" 
+              id="cm4all-wp-settings-name-filter" 
               title="Example : 'widget_*, _page, !*transient*, mailserver_url'" 
               autofocus 
               size="40" 
               placeholder="widget_*, _page, !*transient*, mailserver_url"
             >
-            <label for="super-options-value-filter">Value contains:</label>
+            <label for="cm4all-wp-settings-value-filter">Value contains:</label>
             <input 
               type="text" 
-              id="super-options-value-filter" 
+              id="cm4all-wp-settings-value-filter" 
               size="40" 
               placeholder="localhost !*update*"
               title="Example : 'localhost !*update*'" 
             >
             <div>
               <button 
-                id="super-options-filter-actions-reset"
+                id="cm4all-wp-settings-filter-actions-reset"
                 type="button"
                 class="button"
                 title="Reset option values."
               >Reset</button>
             </div>
-            <div class="super-options-filter-actions"> 
+            <div class="cm4all-wp-settings-filter-actions"> 
               <button 
-                id="super-options-filter-actions-export"
+                id="cm4all-wp-settings-filter-actions-export"
                 type="button"
                 class="button"
                 title="Export filtered options to JSON file."
               ><span class="dashicons dashicons-download"></span>Export filtered options</button>
               <input
-                id="super-options-filter-actions-import-file"
+                id="cm4all-wp-settings-filter-actions-import-file"
                 type="file"
                 accept="application/json"
               >              
               <button 
-                id="super-options-filter-actions-import"
+                id="cm4all-wp-settings-filter-actions-import"
                 type="file"
                 class="button"
                 title="Import options from JSON file."
@@ -192,12 +194,12 @@ window['super-options'] = function () {
     const preset = self.presets.find((preset) => preset.name === input.name);
 
     const TR = document.createElement('TR');
-    TR.classList.add('super-options-additional-table-row');
+    TR.classList.add('cm4all-wp-settings-additional-table-row');
     if (preset) {
       const htmlSlices = [];
       if (preset.unserialized_value !== null) {
         htmlSlices.push(`
-          <details class="super-options-additional-table-row-column-deserialized-value">
+          <details class="cm4all-wp-settings-additional-table-row-column-deserialized-value">
             <summary>Deserialized value:</summary>
             <pre>${JSON.stringify(
               preset.unserialized_value,
@@ -210,7 +212,7 @@ window['super-options'] = function () {
 
       if (preset.value.includes('\n')) {
         htmlSlices.push(`
-        <details class="super-options-additional-table-row-column-value">
+        <details class="cm4all-wp-settings-additional-table-row-column-value">
             <summary>Value:</summary>
             <pre>${preset.value.replace(/</gm, '&lt;')}</pre>
           </details>
@@ -218,7 +220,7 @@ window['super-options'] = function () {
       }
 
       TR.innerHTML = `
-        <td colspan="2" class="super-options-additional-table-row-column">
+        <td colspan="2" class="cm4all-wp-settings-additional-table-row-column">
           <div>autoload: ${preset.autoload}</div>
           ${htmlSlices.join('')}
         </td>`;
@@ -227,9 +229,11 @@ window['super-options'] = function () {
     row.parentNode.insertBefore(TR, row.nextSibling);
   }
 
-  nameFilterInput = document.querySelector('#super-options-name-filter');
-  valueFilterInput = document.querySelector('#super-options-value-filter');
-  resetButton = document.querySelector('#super-options-filter-actions-reset');
+  nameFilterInput = document.querySelector('#cm4all-wp-settings-name-filter');
+  valueFilterInput = document.querySelector('#cm4all-wp-settings-value-filter');
+  resetButton = document.querySelector(
+    '#cm4all-wp-settings-filter-actions-reset'
+  );
   resetButton.disabled = true;
   resetButton.onclick = () => {
     values.reset();
@@ -237,10 +241,14 @@ window['super-options'] = function () {
     updateOptionDetails();
   };
 
-  exportButton = document.querySelector('#super-options-filter-actions-export');
-  importButton = document.querySelector('#super-options-filter-actions-import');
+  exportButton = document.querySelector(
+    '#cm4all-wp-settings-filter-actions-export'
+  );
+  importButton = document.querySelector(
+    '#cm4all-wp-settings-filter-actions-import'
+  );
   importFileInput = document.querySelector(
-    '#super-options-filter-actions-import-file'
+    '#cm4all-wp-settings-filter-actions-import-file'
   );
   updateOptionsButton = optionsForm.querySelector(
     '.submit input[type="submit"]'
@@ -252,7 +260,7 @@ window['super-options'] = function () {
     const byValueRules = parseFilter(valueFilterInput.value, false);
 
     for (const tr of optionsForm.querySelectorAll(
-      'TR:not(.super-options-additional-table-row)'
+      'TR:not(.cm4all-wp-settings-additional-table-row)'
     )) {
       const input = tr.querySelector('input[type="text"]');
 
@@ -271,13 +279,13 @@ window['super-options'] = function () {
             NameOrValueMatches || byNameRules.length + byValueRules.length === 0
               ? 'remove'
               : 'add'
-          ]('super-options-option-hidden');
+          ]('cm4all-wp-settings-option-hidden');
         }
       }
     }
 
     exportButton.disabled = !optionsForm.querySelectorAll(
-      'TR:not(.super-options-additional-table-row):not(.super-options-option-hidden)'
+      'TR:not(.cm4all-wp-settings-additional-table-row):not(.cm4all-wp-settings-option-hidden)'
     ).length;
   });
 
@@ -289,7 +297,7 @@ window['super-options'] = function () {
 
     const matchingOptions = Array.from(
       optionsForm.querySelectorAll(
-        'TR:not(.super-options-additional-table-row):not(.super-options-option-hidden) input[type="text"]'
+        'TR:not(.cm4all-wp-settings-additional-table-row):not(.cm4all-wp-settings-option-hidden) input[type="text"]'
       )
     ).map((input) => input.name);
     const json = JSON.stringify(
@@ -315,7 +323,7 @@ window['super-options'] = function () {
       type: 'application/json;charset=utf-8',
     });
     link.href = URL.createObjectURL(blob);
-    link.download = 'super-options.json';
+    link.download = 'cm4all-wp-settings.json';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -367,7 +375,7 @@ window['super-options'] = function () {
   };
 
   for (const tr of optionsForm.querySelectorAll(
-    'TR:not(.super-options-additional-table-row)'
+    'TR:not(.cm4all-wp-settings-additional-table-row)'
   )) {
     const input = tr.querySelector('input[type="text"].disabled');
     if (input) {
@@ -382,8 +390,8 @@ window['super-options'] = function () {
   const urlParams = Object.fromEntries(
     new URLSearchParams(document.location.search)
   );
-  nameFilterInput.value = urlParams['super-options-filter-name'] ?? '';
-  valueFilterInput.value = urlParams['super-options-filter-value'] ?? '';
+  nameFilterInput.value = urlParams['cm4all-wp-settings-filter-name'] ?? '';
+  valueFilterInput.value = urlParams['cm4all-wp-settings-filter-value'] ?? '';
 
   filterSettings();
 
@@ -400,5 +408,5 @@ window['super-options'] = function () {
   };
 };
 
-window['super-options'].allowedOptions = [];
-window['super-options'].presets = [];
+window['cm4all-wp-settings'].allowedOptions = [];
+window['cm4all-wp-settings'].presets = [];

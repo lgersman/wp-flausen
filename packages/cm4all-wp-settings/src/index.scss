@@ -2,8 +2,8 @@ label {
   white-space: nowrap;
 }
 
-.super-options-container {
-  .super-options-form {
+.cm4all-wp-settings-container {
+  .cm4all-wp-settings-form {
     fieldset {
       padding-top: 4px;
     }
@@ -17,7 +17,7 @@ label {
       font-weight: 600;
     }
 
-    .super-options-filter {
+    .cm4all-wp-settings-filter {
       display: grid;
       grid-template-columns: max-content max-content;
       grid-template-rows: 1fr 1fr;
@@ -28,7 +28,7 @@ label {
         '. .'
         '. .';
 
-      .super-options-filter-actions {
+      .cm4all-wp-settings-filter-actions {
         justify-self: end;
 
         button {
@@ -39,7 +39,7 @@ label {
           }
         }
 
-        #super-options-filter-actions-import-file {
+        #cm4all-wp-settings-filter-actions-import-file {
           display: none;
         }
       }
@@ -47,12 +47,12 @@ label {
   }
 }
 
-.super-options-additional-table-row {
-  > .super-options-additional-table-row-column {
+.cm4all-wp-settings-additional-table-row {
+  > .cm4all-wp-settings-additional-table-row-column {
     padding: 0;
 
-    > .super-options-additional-table-row-column-deserialized-value,
-    > .super-options-additional-table-row-column-value {
+    > .cm4all-wp-settings-additional-table-row-column-deserialized-value,
+    > .cm4all-wp-settings-additional-table-row-column-value {
       pre {
         margin: 0;
         line-height: 1;
@@ -73,12 +73,12 @@ label {
 }
 
 tr {
-  &.super-options-option-hidden {
+  &.cm4all-wp-settings-option-hidden {
     display: none;
   }
 
   td {
-    input[type='text'].super-options-value-modified {
+    input[type='text'].cm4all-wp-settings-value-modified {
       border-inline: 2px solid #2271b1;
       // background-color: #2271b1;
       // color: #fff;

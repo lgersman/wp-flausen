@@ -1,5 +1,5 @@
 {
-  "name": "super-options",
+  "name": "cm4all-wp-settings",
   "version": "1.0.0",
   "description": "A pimped wordpress options screen including filter and import/export capabilities.",
   "main": "index.js",
