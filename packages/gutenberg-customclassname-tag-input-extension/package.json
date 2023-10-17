@@ -12,7 +12,8 @@
     "packages-update": "wp-scripts packages-update"
   },
   "devDependencies": {
+    "@wordpress/scripts": "^26.14.0",
     "@wp-flausen/react-tag-input": "^1.0.0",
-    "@wordpress/scripts": "^21.0.2"
+    "webpack-cli": "^5.1.4"
   }
 }

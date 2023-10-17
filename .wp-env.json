@@ -1,7 +1,6 @@
 {
   "core": "WordPress/WordPress#5.9.1",
   "plugins": [
-    "./packages/create-block-foo",
     "./packages/cm4all-wp-settings",
     "./packages/gutenberg-customclassname-tag-input-extension"
   ],
